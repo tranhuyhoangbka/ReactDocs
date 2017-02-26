@@ -1,0 +1,9 @@
+Thay vì viết 
+React.render(<Hello name="world" message="all your base are belong to use" />, document.getElementById('container'));
+
+Ta có thể viết ngắn gọn như sau:
+
+var greeting = {name: 'world', message: 'All your base are belong to use'};
+React.render(<Hello {...greeting} />, document.getElementById('container'));
+
+Chú ý có thể dùng dư thừa param trong hash truyền vào render method

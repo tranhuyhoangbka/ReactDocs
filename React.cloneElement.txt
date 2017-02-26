@@ -1,0 +1,3 @@
+React.cloneElement để clone một element nào đó.
+React.cloneElement(element, [props], [children...]);
+

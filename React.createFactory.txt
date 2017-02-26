@@ -1,0 +1,3 @@
+React.createFactory là một function mà sẽ gọi createElement trên một loại ReactElement được cho.
+React.createFactory(type)
+

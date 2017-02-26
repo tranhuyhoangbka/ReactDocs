@@ -1,0 +1,17 @@
+1, clone thư mục flux 
+git clone https://github.com/facebook/flux.git
+được thư mục flux
+cd flux
+2, chạy lệnh này trong thư mục flux
+npm install
+3, cd examples/flux-todomvc
+sửa file package.json bằng cách thêm dòng sau:
+
+"webpack-dev-server": "^1.10.*"
+
+vào cuối dependences
+chạy lệnh: npm install 
+4, khởi động server
+node_modules/.bin/webpack-dev-server
+go: http://localhost:8080/index.html
+

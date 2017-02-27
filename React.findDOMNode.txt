@@ -1,0 +1,4 @@
+React.findDOMNode là một function mà sẽ trả về dom element của component hoặc element được pass tới function
+React.findDomNode(component);
+nó đầu tiên check xem component hay element có null không, nếu null thì trả về null. sau đó nó check liệu component được passed tới dom node, trong trường hợp này nó sẽ tả về element đó như node. Nó sẽ lợi dụng ReactInstanceMap và sau
+đó fetch dom node từ map đó

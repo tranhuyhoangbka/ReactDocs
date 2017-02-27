@@ -1,0 +1,84 @@
+các react components được tạo khi chúng ta extend React.Component class dùng ES6, hoặc dùng React.createClass method
+
+class myComponent extends React.Component {
+  render() {
+    return (<div>Hello world</div>);
+  }
+}
+----------------
+var myComponent = React.createClass({
+  render: function(){
+    return (<div>Hello world</div>);
+  }
+});
+
+- React.Component , có 2 methods chính: setState, forceUpdate
+
+setState Có thể thêm một callback function sẽ được thực thi mỗi lần state được set. Có thể pass một function hoặc một plain
+object tới setState method
+
+setState(function(currState, currProps) {
+  return {X: currState.X + "state changed"};
+});
+
+setState using an object directly setting the state
+
+setState({X: "state changed"});
+
+- isMounted() check rằng component đã được render tới dom chưa.
+- getDOMNode tương tự với React.findDOMNode và đã bị deprecated
+- setProps( nextProps, callback ); 
+
+- render , mọi components phải có một render function, render function chấp nhận một ReactElement và cung cấp một container
+ nơi component sẽ được thêm tới DOM
+
+- getInitialState: Trả về một object chứa state của component khi mà nó được render tại thời điểm khởi tạo
+- getDefaultProps: khi ReactClass lần đầu tiên được tạo, getDefaultProps sẽ được gọi 1 lần và sau đó được cache. function này 
+trả về một object đại diện cho trạng thái mặc định của this.props trên component. Giá trị của this.prop không tồn tại
+trong parent component.
+
+var GenericComponent = React.createClass({
+  getInitialState: function() {
+    return {thing: this.props.thingy};
+  },
+
+ getDefaultProps: function(){
+   return {thingy: "cheese"}
+ }
+});
+
+class GenericComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {thing: props.thingy};
+  }
+}
+
+GenericComponent.defaultProps = {thingy: "cheese"};
+
+--------------------
+var GenericComponent = React.createClass({
+// invoked first
+  getInitialProps: function() {
+    return {};
+  },
+
+// invoked second
+  getInitialState: function() {
+    return {};
+  },
+// invoked third
+
+  componentWillMount: function(){
+  },
+
+//render fourth
+
+  render: function(){
+    return (<h1>Hello world</h1>);
+  },
+
+//last
+  componentDidMount: function(){
+  }
+});

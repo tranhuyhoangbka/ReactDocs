@@ -1,0 +1,13 @@
+React.render sẽ lấy một ReactElement và render nó tới DOM. Cần cung cấp nơi mà react sẽ đặt element, cũng có thể
+optional cung cấp một callback function sẽ được thực hiện mỗi khi ReactElement được render tới DOM node.
+
+React.render(element, container [, callback]);
+
+var MyComponent = React.createClass({
+  render: function() {
+    return (
+      <div>{this.props.name}</div>
+    );
+  }
+});
+React.render(<MyComponent name="frodo" />, document.getElementById('container'));

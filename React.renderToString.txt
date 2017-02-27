@@ -1,0 +1,6 @@
+React.renderToString là một function cho phép render a ReactElement tới inital HTML markup. Tính năng này thường
+được dùng để phục vụ appliction từ server. Trong thực tế, nếu gọi React.render() trên element mà được rendered với
+React.renderToString trên server, React đủ thông minh để chỉ cần đính kèm handle sự kiện tới element đó và không
+ remainipulate toàn bộ dom structure
+
+React.renderToString(reactElement);

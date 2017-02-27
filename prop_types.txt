@@ -1,0 +1,33 @@
+React.PropTypes.array
+React.PropTypes.bool
+React.PropTypes.func
+React.PropTypes.number
+React.PropTypes.object
+React.PropTypes.string
+React.PropTypes.any
+myNodeProp: React.PropTypes.element
+
+propTypes: {
+requiredBoolean: React.PropTypes.bool.isRequired
+}
+myNodeProp: React.PropTypes.node
+
+//enforces that your prop is an instance of a class
+React.PropTypes.instanceOf( MyClass ).
+ 
+// Enforces that your prop is one of an array of values
+React.PropTypes.oneOf( [ 'choose', 'cheese' ])
+ 
+// Enforces a prop to be any of the listed types
+React.PropTypes.onOfType( [
+React.PropTypes.string,
+React.PropTypes.element,
+React.PropTypes.instanceOf( MyClass )
+])
+ 
+// Enforce that the prop is an array of a given type
+React.PropTypes.arrayOf( React.PropTypes.string )
+ 
+// Enforce the prop is an object with values of a certain type
+React.PropTypes.objectOf( React.PropTypes.string )
+

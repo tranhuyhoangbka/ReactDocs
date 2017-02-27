@@ -1,0 +1,116 @@
+1, tạo thư mục cho project ví dụ: project
+2, cd tới thư mục, tạo file index.html
+nội dung:
+<!DOCTYPE html>
+<html>
+<head>
+  <title>First React Component</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/javascript" src="./bundle.js"></script>
+</body>
+</html>
+
+3, tạo file package.json bằng việc chạy: npm init
+nó sẽ quản lý các dependency (download và cài đặt các libraries). Chúng ta sẽ thêm các libs sau:
+React, Babel để compiler JSX, webpack để tạo server local.
+nội dung file như sau:
+
+{
+  "name": "test_react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "scripts": {
+    "start": "node_modules/.bin/webpack-dev-server --progress"
+  },
+  "devDependencies": {
+    "babel-core": "^5.8.*",
+    "babel-loader": "^5.3.*",
+    "webpack": "^1.12.*",
+    "webpack-dev-server": "^1.10.*"
+  },
+  "dependencies": {
+    "react": "^0.13.*"
+  },
+  "license": "ISC"
+}
+
+sau đó chạy: npm install
+
+4, cấu hình webpack
+- tạo file webpack.config.js trong thư mục project
+
+module.exports = {
+  entry: [
+    './source/App.js'
+  ],
+  output: {
+    path: __dirname,
+    filename: "bundle.js"
+  },
+  module: {
+    loaders: [{
+      test: /\.jsx?$/,
+      loader: 'babel'
+    }]
+  }
+};
+
+với 
+entry trỏ tới file jsx (module chính) cần compile: ./source/App.js
+output định nghĩa path tới file mà babel sẽ compile các file jsx: ./bundle.js
+module loaders: định nghĩa loại file cần compile: js hoặc jsx, loader là babel
+
+5, chạy lệnh:
+node_modules/.bin/webpack-dev-server
+để bật server
+
+hoặc thêm dòng: 
+"scripts": {
+  "start": "node_modules/.bin/webpack-dev-server --progress"
+},
+tới package.json 
+sau đó để bật server chỉ cần chay: npm start
+http://localhost:8080 để bật web
+
+6, nội dung file jsx cho component đầu tiên
+
+(
+import React from 'react';
+  class Hello extends React.Component {
+  ....
+  }
+)
+-----------
+import React, {Component} from 'react';
+
+class Hello extends Component {
+  render() {
+    return (
+      <h1>Hello World</h1>
+    );
+  }
+}
+React.render(<Hello />, document.getElementById('root'));
+
+8, chú ý
+thực ra có thể không cần dùng package.json để quản lý cho react có thể làm thủ công bằng cách download các file sau rồi
+import vào project 
+react.js, react-with-addons.js, JSXTransformer.js
+<script src="react/build/react.js"></script>
+<script src="react/build/JSXTransformer.js"></script>
+
+<script type="text/jsx">
+  React.render(/*...*/);
+</script>
+
+or using separate jsx file:
+<script type="text/jsx" src="my/app.js">
+
+

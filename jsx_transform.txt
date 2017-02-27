@@ -1,0 +1,49 @@
+var Hello = React.createClass({
+  render: function() {
+    return <div>Hello {this.props.name}</div>;
+  }
+});
+
+React.render(<Hello name="World" />, document.getElementById('container'));
+
+var Hello = React.createClass({display: "Hello",
+  render: function() {
+    return React.createElement("div", null, "Hello", this.props.name);
+  }
+});
+
+React.render(React.createElement(Hello, {name: "World"}),
+document.getElementById('container'));
+
+-------------------------------
+var GreetingComponent = React.createClass({
+  render: function() {
+    return <div>Hello {this.props.name}</div>;
+  }
+});
+ 
+var GenericComponent = React.createClass({
+  render: function() {
+    return <GreetingComponent name={this.props.name} />;
+  }
+});
+ 
+React.render(<GenericComponent name="World" />,
+document.getElementById('container'));
+
+====>
+
+var GreetingComponent = React.createClass({displayName: "GreetingComponent",
+  render: function() {
+    return React.createElement("div", null, "Hello ", this.props.name);
+  }
+});
+ 
+var GenericComponent = React.createClass({displayName: "GenericComponent",
+  render: function() {
+    return React.createElement(GreetingComponent, {name: this.props.name});
+  }
+});
+ 
+React.render(React.createElement(GenericComponent, {name: "World"}),
+document.getElementById('container'));

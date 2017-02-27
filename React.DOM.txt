@@ -1,0 +1,3 @@
+React.DOM object cung cấp các utility functions mà giúp tạo các DÔM elements nó ko dùng JSX.  Thay thế của việc
+viết <div>My div</div> trong JSX, có thể tạo element như sau:
+React.DOM.div(null, "my div");

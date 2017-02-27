@@ -1,0 +1,18 @@
+1, install react-tools  package from npm
+
+sudo npm -g react-tools
+
+2, sau đó xem thư mục nào chứa *.jsx và compile chúng tới javascript folder. 
+
+jsx --watch src/ build/
+compile các *.jsx trong src folder tới build/ folder
+
+3, cái đặt global browserify, watchify, babel
+npm install browerify watchify babel
+
+trong thư mục gốc của project
+npm install react browerify watchify babelify --save-dev
+
+4, chuyển file jsx thành js file
+watchify -t babelify ./src/app/jsx -o ./dist/bundle.js -v
+

@@ -1,0 +1,15 @@
+React.createElement method được dùng để tạo một new ReactElement. 
+React.createElement(type, [props[, [children...]]]);
+
+var MyComponent = React.createClass({
+  displayName: "MyComponent",
+  render: function render() {
+    return React.createElement(
+      "div",
+      null,
+      this.props.name
+    );
+  }
+});
+
+React.render(React.createElement(MyComponent, {name: "frodo"}), document.getElementById('container'));

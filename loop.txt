@@ -1,0 +1,25 @@
+Có thể dùng if-else cũng như for loop bên trong jsx
+chúng được viết trong render function.
+
+import React, {Component} from 'react';
+
+class ListItem extends Component {
+  render() {
+    return <li>{this.props.text}</li>;
+  }
+}
+
+class BigList extends Component {
+  render() {
+    var items = [ "item1", "item2", "item3", "item4" ];
+    var formattedItems = [];
+    for(var i = 0; i < items.length; i++) {
+      var textObj = {text: items[i]};
+      formattedItems.push(<ListItem {...textObj} />);
+    }
+    return <ul>{formattedItems}</ul>;
+  }
+}
+
+React.render(<BigList />, document.getElementById('root'));
+

@@ -1,0 +1,7 @@
+để định nghĩa class cho một element dùng className="xxx"
+
+var UserMenu = React.createClass({
+  render: function(){
+    return <ul className="username"><li>Item</li><li>Item</li></ul>;
+  }
+});

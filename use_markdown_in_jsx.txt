@@ -1,0 +1,17 @@
+1, cài đặt thư viện macked
+https://github.com/chjj/marked
+
+2, package.json
+"markdown": "*",
+"showdown": "*"
+
+3, chay lệnh:  npm install --save marked
+
+4, Thêm dòng sau tới file jsx
+
+import marked from 'marked';
+
+5, Sử dụng dangerouslySetInnerHTML để ko escape html
+
+<span dangerouslySetInnerHTML={{__html:marked(this.props.description)}} />
+

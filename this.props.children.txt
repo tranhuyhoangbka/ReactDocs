@@ -1,0 +1,24 @@
+Cũng giống với this.props.name để trỏ tới attribute name của component cha
+thì this.props.children trỏ tới nội dung của component cha
+
+import React, {Component} from 'react';
+//parent component
+class GroceryList extends Component {
+  render() {
+    return (
+      <ul>
+        <ListItem quantity="1">Bread</ListItem>
+        <ListItem quantity="6">Eggs</ListItem>
+        <ListItem quantity="2">Milk</ListItem>
+      </ul>
+    );
+  }
+}
+
+class ListItem extends Component {
+  render() {
+    return <li>{this.props.quantity}x {this.props.children}</li>;
+  }
+}
+
+React.render(<GroceryList />, document.getElementById('root'));

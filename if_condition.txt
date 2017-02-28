@@ -1,0 +1,21 @@
+<div className={condition ? "salutation" : ""}>
+  Hello JSX
+</div>
+
+<div>
+  {condition ?
+    <span>Hello JSX</span>
+  : null}
+</div>
+
+*** Move condition out from jsx
+
+render() {
+  let className;
+  if(condition){
+    className = "salutation";
+  }
+  return (
+    <div className={className}>Hello JSX</div>
+  )
+}

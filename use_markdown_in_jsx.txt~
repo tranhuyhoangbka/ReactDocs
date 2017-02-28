@@ -1,0 +1,13 @@
+1, cài đặt thư viện macked
+https://github.com/chjj/marked
+package.json
+"markdown": "*",
+"showdown": "*"
+
+chay lệnh:  npm install --save marked
+
+Thêm dòng sau tới file jsx
+
+import marked from 'marked';
+
+

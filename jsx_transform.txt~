@@ -50,7 +50,7 @@ document.getElementById('container'));
 
 -------------------------------------------------------------------------
 Dùng tools để compile
-1, JSXTransformer  (react v0.14 đã deprecated JSXTransformer)
+1, JSXTransformer
 npm install -g react-tools
 
 Testing a successful installation:
@@ -64,5 +64,3 @@ build là thư mục chứa các file js được compiled với tên tương �
 
 Thêm dòng sau vào html file: <script src="build/hello.js"></script>
 
-
-2, dùng Babel

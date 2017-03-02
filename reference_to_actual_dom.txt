@@ -1,0 +1,5 @@
+dùng ref như một string prop để có thể access tới actual dom
+<input ref="myInput" />
+let input = this.refs.myInput;
+let inputValue = input.value;
+let inputRect = input.getBoundingClientRect();

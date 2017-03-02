@@ -1,9 +1,0 @@
-<div className={condition ? "salutation" : ""}>
-  Hello JSX
-</div>
-
-<div>
-  {condition ?
-    <span>Hello JSX</span>
-  : null}
-</div>

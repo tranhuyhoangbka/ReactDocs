@@ -1,0 +1,7 @@
+1, install react-dnd library
+thêm 
+"react-dnd": "2.x.x",
+"react-dnd-html5-backend": "1.x.x"
+vào file package.json gõ lệnh npm install
+
+

@@ -1,0 +1,299 @@
+1, cách đơn giản nhất mà ko dùng thư viện
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import About from './About';
+import Home from './Home';
+import Repos from './Repos';
+
+class App extends Component {
+  constructor() {
+    super(...arguments);
+    this.state = {
+      route: window.location.hash.substr(1)
+    };
+  }
+
+  componentDidMount() {
+    window.addEventListener('hashchange', () => {
+      this.setState({
+        route: window.location.hash.substr(1)
+      });
+    });
+  }
+  render() {
+    var Child;
+    switch(this.state.route) {
+      case '/about': Child = About; break;
+      case '/repos': Child = Repos; break;
+      default: Child = Home;
+    }
+    return (
+      <div>
+        <header>App</header>
+        <menu>
+          <ul>
+            <li><a href="#/about">About</a></li>
+            <li><a href="#/repos">Repos</a></li>
+          </ul>
+        </menu>
+        <Child />
+      </div>
+    );
+  }
+}
+
+render(<App />, document.getElementById('root'));
+==========
+import React, {Component} from 'react';
+
+class Home extends Component {
+  render() {
+    return (
+      <h1>HOME</h1>
+    );
+  }
+}
+
+export default Home;
+===========
+import React, {Component} from 'react';
+
+class About extends Component {
+  render() {
+    return (
+      <h1>ABOUT</h1>
+    );
+  }
+}
+
+export default About;
+===========
+import React, {Component} from 'react';
+
+class Repos extends Component {
+  render() {
+    return (
+      <h1>Github Repos</h1>
+    );
+  }
+}
+export default Repos;
+
+2, Dùng thư viện react-router 
+cài đặt:
+npm install --save react-router@1.x.x history@1.x.x
+hoặc thêm library tới package.json và chạy npm install
+
+"react-router": "^1.*.*",
+"history": "^1.*.*"
+
+2.1, Parent component
+
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import {Router, Route, Link} from 'react-router';
+import About from './About';
+import Home from './Home';
+import Repos from './Repos';
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <header>App</header>
+        <menu>
+          <ul>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/repos">Repos</Link></li>
+          </ul>
+        </menu>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+render((
+  <Router>
+    <Route path="/", component={App}>
+      <Route path="about" component={About} />
+      <Route path="repos" component={Repos} />
+    </Route>
+  </Router>
+), document.getElementById('root'));
+
+Chú ý dùng IndexRoute component của react-router để setting component default cho các routes
+import {Router, Route, IndexRoute, Link} from 'react-router';
+ <Router>
+    <Route path="/" component={App}>
+      <IndexRoute component={Home} />
+      ...
+    </Route>
+  </Router>
+
+********************** Chú ý:
+Dùng activeClasName attribute để xác định class css thêm tới a element khi link được click:
+vd:  <li><Link to="/about" activeClassName="active">About</Link></li>
+
+Có thể truyền prop từ route tới component dễ dàng. Ví dụ:
+parent Componet: 
+<Route path="about" component={About} title="About Us" />
+Child component:
+<h1>{this.props.route.title}</h1>
+
+có thể xác định dạng url cụ thể cho child component bằng cách sử dụng absolute path trong setting route
+Thay thế: <Route path="details/:repo_name" component={RepoDetails} />   bằng
+<Route path="/repo/:repo_name" component={RepoDetails} />
+update parent component:  
+<li key={repo.id}><Link to={"/repo/"+repo.name}>{repo.name}</Link></li>
+
+
+Thường một route có một single component. Nội dung của component sẽ available trên parent component bởi this.props.children
+Tuy nhiên cũng có thể khai báo nhiều components khi setting route và có availabel trong parent component bởi name trên
+props.children. Ví dụ
+React.render((
+  <Router>
+    <Route path="/" componnt={App}>
+      <Route path="groups" components={{content: Groups, sidebar: GroupsSidebar}} />
+      <Route path="users" components = {{content: Users, sidebar: UsersSidebar}} />
+    </Route>
+  </Router>
+), element);
+Bên trong component
+render() {
+  return (
+    <div>{this.props.children.sidebar}-{this.props.children.content}</div>
+  );
+}
+=====================
+Route with params and nested routes
+app.js
+
+render((
+  <Router>
+    <Route path="/" component={App}>
+      <IndexRoute component={Home} />
+      <Route path="about" component={About} />
+      <Route path="repos" component={Repos}>
+        <Route path="details/:repo_name" component={RepoDetails} />
+      </Route>
+    </Route>
+  </Router>
+), document.getElementById('root'));
+
+Repos.js
+
+render() {
+    let repos = this.state.repositories.map((repo) => (
+      <li key={repo.id}>
+        <Link to={"/repos/details/" + repo.name}>{repo.name}</Link>
+      </li>
+    ));
+    return (
+      <div>
+        <h1>Github Repos</h1>
+        <ul>{repos}</ul>
+        {this.props.children}
+      </div>
+    );
+
+repoDetails.js
+
+import React, {Component} from 'react';
+import 'whatwg-fetch';
+
+class RepoDetails extends Component {
+  constructor() {
+    super(...arguments);
+    this.state = {
+      repository: {}
+    };
+  }
+
+  fetchData(repo_name) {
+    fetch('https://api.github.com/repos/pro-react/'+repo_name)
+    .then((response) => response.json())
+    .then((responseData) => {
+      this.setState({repository: responseData});
+    });
+  }
+
+  componentDidMount() {
+    let repo_name = this.props.params.repo_name;
+    this.fetchData(repo_name)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let repo_name = nextProps.params.repo_name;
+    this.fetchData(repo_name);
+  }
+
+  render() {
+    let stars = [];
+    for(var i = 0; i < this.state.repository.stargazers_count; i++) {
+      stars.push('*');
+    }
+    return (
+      <div>
+        <h2>{this.state.repository.name}</h2>
+        <p>{this.state.repository.description}</p>
+        <span>{stars}</span>
+      </div>
+    );
+  }
+}
+
+export default RepoDetails;
+============================================
+Render ServerError component nếu fetch data bị lỗi
+
+componentDidMount() {
+    fetch('https://api.github.com/users/pro-react/repos')
+      .then((response) => {
+        if(response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Server response wasn't OK");
+        }
+      })
+      .then((responseData) => {
+        this.setState({repositories: responseData});
+      }).catch((error) => {
+        this.props.history.pushState(null, '/error');
+      });
+  }
+
+import React, {Component} from 'react';
+const styles = {
+  root: {
+    textAlign: 'center'
+  },
+  alert: {
+    fontSize: 80,
+    fontWeight: 'bold',
+    color: '#e9ab2d'
+  }
+};
+class ServerError extends Component {
+  render() {
+    return (
+      <div style={styles.root}>
+        <div style={styles.alert}>$#9888;</div>
+        <h1>Ops, we have a problem</h1>
+        <p>Sorry, we could't access the repositories. Please try again in a few moments</p>
+      </div>
+    );
+  }
+}
+export default ServerError;
+==========================================
+Để url đẹp từ http://domain/#path => http://domain/path
+cần bật chế độ browser history
+import createBrowserHistory method từ thư viện History
+import createBrowserHistory from 'history/lib/createBrowserHistory';
+sau đó sửa config route
+ender((
+  <Router history={createBrowserHistory()}>
+    ...
+  </Router>
+), document.getElementById('root'));
+

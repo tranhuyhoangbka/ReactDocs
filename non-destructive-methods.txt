@@ -1,0 +1,73 @@
+Phép gán let updatedPassengers = this.state.passengers;
+không thực tế tạo một bản copy cho this.state.passengers mà chỉ tạo một reference tới cùng array. Xa hơn, ta thấy
+việc dùng push method cũng ko tạo ra một bản copy của array.
+Thay vào đó ta sẽ phải sử dụng các methods là concat, filter, map để tạo ra các bản copy của array hay object.
+Hoặc dùng Object.assign:
+Object.assign(target, source_1, source_2, ..., source_n);
+Đầu tiên nó copy tất cả các properties cảu source_1 tới target, sau đó là source_2...
+ví dụ
+let updatedTicket = Object.assign({},this.state.ticket, {flightNo: '1010'});
+this.setState({ticket: updatedTicket});
+
+Chú ý:
+Hiện tại thì Chrome, Firefox đã hỗ trợ Object.assign nhưng các version cũ có thể chưa hỗ trợ để tránh các lỗi Babel cung cấp
+sự chuyển đổi với polyfill cho các browers khác. Để có điều này cần cài đặt polyfill
+npm install --save babel-polyfill
+và import 'babel-polyfill';
+
+- Tuy nhiên với các nested object dù có dùng Object.assign đi chăng nữa thì child object vẫn sẽ reference tới cũng một object
+với origin object. Vì vậy ta có thể dùng các method deep clone dùng lodash hoặc method của javascript ES6 nhưng đó ko phải là
+lựa chọn tốt bởi nó ảnh hưởng tới performance. Rất may React có cung cấp add-on package cung cấp các function tiện ích mà
+giúp update complex và nested models
+
+npm install –save react-addons-update
+
+import update from 'react-addons-update';
+
+let student = {name:'John Caster', grades:['A','C','B']}
+let newStudent = update(student, {grades:{$push: ['A']}})
+let newStudent = update(student, {grades:{$set: ['A','A','B']}})
+
+
+deleteTask(cardId, taskId, taskIndex) {
+    let cardIndex = this.state.cards.findIndex((card) => card.id == cardId);
+    let nextState = update(this.state.cards, {
+      [cardIndex]: {
+        tasks: {$splice: [[taskIndex, 1]]}
+      }
+    });
+    this.setState({cards: nextState});
+    fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
+      method: 'delete',
+      headers: API_HEADERS
+    });
+  }
+
+let originalTicket={
+company: 'Dalta',
+flightNo: '0990',
+departure: {
+airport: 'LAS',
+time: '2016-08-21T10:00:00.000Z'
+},
+arrival: {
+airport: 'MIA',
+time: '2016-08-21T14:41:10.000Z'
+},
+codeshare: [
+{company:'GL', flightNo:'9840'},
+{company:'TM', flightNo:'5010'}
+
+let newTicket = update(originalTicket, {
+arrival: {
+airport: {$set: 'MCO'}
+}
+});
+
+let newTicket = update(originalTicket,{
+codeshare: {
+0: { $set: {company:'AZ', flightNo:'7320'} }
+}
+});
+]
+}

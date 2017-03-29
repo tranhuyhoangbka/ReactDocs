@@ -1,0 +1,118 @@
+- Cài đặt thư viện
+npm install --save react-addons-css-transition-group
+hoặc thêm
+react-addons-css-transition-group tới package.json và chạy npm install
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+- jsx:
+
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+class AnimatedShoppingList extends Component {
+  constructor() {
+    super(...arguments);
+    this.state = {
+      items: [
+        {id:1, name: 'Milk'},
+        {id:2, name: 'Yogurt'},
+        {id:3, name: 'Orange Juice'}
+      ]
+    };
+  }
+
+  handleRemove(i) {
+    var newItems = this.state.items;
+    newItems.splice(i, 1);
+    this.setState({items: newItems});
+  }
+
+  handleChange(evt) {
+    if(evt.key === 'Enter') {
+      let newItem = {id: Date.now(), name: evt.target.value};
+      let newItems = this.state.items.concat(newItem);
+      evt.target.value = '';
+      this.setState({items: newItems});
+    }
+  }
+
+  render() {
+    let shoppingItems = this.state.items.map((item, i) => (
+      <div key={item.id}
+           className="item"
+           onClick={this.handleRemove.bind(this, i)}>
+        {item.name}
+      </div>
+    ));
+    return (
+      <div>
+        <ReactCSSTransitionGroup transitionName="example"
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={300}>
+          {shoppingItems}
+        </ReactCSSTransitionGroup>
+        <input type="text" value={this.state.newItem} onKeyDown={this.handleChange.bind(this)} />
+      </div>
+    );
+  }
+}
+
+ React.render(<AnimatedShoppingList />, document.getElementById('root'));
+
+-  css
+
+Mỗi thời điểm một new item được thêm vào item sẽ được thêm class là example-enter, sau đó class example-enter-active được thêm vào, sau thời gian khai báo ở transitionEnterTimeout
+cả 2 class sẽ bị xóa
+tương tự với trường hợp remove item với example-leave và example-leave-active
+
+.example-enter {
+  opacity: 0;
+  transform: translateX(-250px);
+}
+.example-enter.example-enter-active {
+  opacity: 1;
+  transform:
+  translateX(0);
+  transition: 0.3s;
+}
+
+.example-leave {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.example-leave.example-leave-active {
+  opacity: 0;
+  transform: translateX(250px);
+  transition: 0.3s;
+}
+==============================================================================
+
+<ReactCSSTransitionGroup transitionName="toggle"
+                                 transitionEnterTimeout={250}
+                                 transitionLeaveTimeout={250}>
+          {cardDetails}
+        </ReactCSSTransitionGroup>
+
+.toggle-enter {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.toggle-enter.toggle-enter-active {
+  max-height: 300px;
+  overflow: hidden;
+  transition: max-height 1s ease-in;
+}
+
+.toggle-leave {
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.toggle-leave.toggle-leave-active{
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height .25s ease-out;
+}

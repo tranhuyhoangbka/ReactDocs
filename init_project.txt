@@ -1,3 +1,5 @@
+Có thể dùng template sau:  https://github.com/pro-react/react-app-boilerplate
+
 1, tạo thư mục cho project ví dụ: project
 2, cd tới thư mục, tạo file index.html
 nội dung:

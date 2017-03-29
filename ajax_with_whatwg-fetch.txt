@@ -1,0 +1,66 @@
+1, Thêm "whatwg-fetch": "*" tới devdependences trong package.json
+npm install
+2,
+import React, {Component, PropTypes} from 'react';
+import {render} from 'react-dom';
+import 'whatwg-fetch';
+
+class ContactsAppContainer extends Component {
+  constructor() {
+    super();
+    this.state = {
+      contacts: []
+    };
+  }
+
+  componentDidMount() {
+    fetch('../public/contacts.json')
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({contacts: responseData});
+      })
+      .catch((error) => {
+        console.log("Error fetching and parsing data", error);
+      });
+  }
+  render() {
+    return (
+      <ContactsApp contacts={this.state.contacts} />
+    );
+  }
+}
+
+React.render(<ContactsAppContainer />, document.getElementById('root'));
+
+================================
+fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
+      method: 'delete',
+      headers: API_HEADERS
+    });
+==================================
+fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
+      method: 'put',
+      headers: API_HEADERS,
+      body: JSON.stringify({done: newDoneValue})
+    });
+===================================
+addTask(cardId, taskName) {
+    let cardIndex = this.state.cards.findIndex((card) =>card.id == cardId);
+    let newTask = {id: Date.now(), name: taskName, done: false};
+    let nextState = update(this.state.cards, {
+      [cardIndex]: {
+        tasks: {$push: [newTask]}
+      }
+    });
+    this.setState({cards: nextState});
+    fetch(`${API_URL}/cards/${cardId}/tasks`, {
+      method: 'post',
+      headers: API_HEADERS,
+      body: JSON.stringify(newTask)
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      newTask.id = responseData.id;
+      this.setState({cards: nextState});
+    });
+  }

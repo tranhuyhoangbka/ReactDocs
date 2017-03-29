@@ -1,0 +1,51 @@
+Hướng tiếp cận đúng là khai báo propType của component sau khi ta tạo component
+1, một prop là required
+import React, {Component, PropTypes} from 'react';
+import {render} from 'react-dom';
+
+class Greeter extends Component {
+  render() {
+    return <h1>{this.props.salutation}</h1>;
+  }
+}
+Greeter.propTypes = {
+  salutation: PropTypes.string.isRequired
+}
+
+React.render(<Greeter />, document.getElementById('root'));
+
+2, Default Prop Value
+Greeter.defaultProps = {
+  salutation: 'Hello World'
+}
+Khi render nếu salutation không có mặt thì giá trị mặc định sẽ được dùng
+
+=========================
+KanbanBoard.propTypes = {
+  cards: PropTypes.arrayOf(PropTypes.object)
+};
+
+List.propTypes = {
+  title: PropTypes.string.isRequired,
+  cards: PropTypes.arrayOf(PropTypes.object)
+}
+
+3, Tạo một custom prop type
+let titlePropType = (props, propName, componentName) => {
+  if(props[propName]) {
+    let value = props[propName];
+    if(typeof value !== 'string' || value.length > 80) {
+      return new Error(
+        `${propName} in ${componentName} is longer than 80 characters`
+      );
+    }
+  }
+}
+
+Card.propTypes = {
+  id: PropTypes.number,
+  title: titlePropType,
+  description: PropTypes.string,
+  color: PropTypes.string,
+  tasks: PropTypes.arrayOf(PropTypes.object)
+};

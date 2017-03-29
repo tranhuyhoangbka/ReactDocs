@@ -6,7 +6,7 @@ in packages.json file:
 run command:
 npm install
 
-2, 
+2,
 
 import React, {Component} from 'react';
 import ShoppingCart from './ShoppingCart';
@@ -29,4 +29,3 @@ class Container extends Component {
   }
 }
 export default DragDropContext(HTML5Backend)(Container);
-

@@ -5,3 +5,9 @@ var UserMenu = React.createClass({
     return <ul className="username"><li>Item</li><li>Item</li></ul>;
   }
 });
+
+===============
+label dùng htmlFor thay cho for
+<label htmlFor="status">STatus</label>
+<select id="status">...</select>
+

@@ -1,0 +1,4 @@
+fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
+      method: 'delete',
+      headers: API_HEADERS
+    });
